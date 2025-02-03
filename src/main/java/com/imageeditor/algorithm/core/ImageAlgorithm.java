@@ -1,4 +1,4 @@
-package com.imageeditor.controller;
+package com.imageeditor.algorithm.core;
 
 import java.awt.image.BufferedImage;
 

@@ -1,6 +1,6 @@
-package com.imageeditor.controller.file;
+package com.imageeditor.action.file;
 
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 import com.imageeditor.history.ImageCaretaker;
 
 import javax.swing.*;

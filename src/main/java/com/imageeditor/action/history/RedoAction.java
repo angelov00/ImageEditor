@@ -1,7 +1,7 @@
-package com.imageeditor.controller.history;
+package com.imageeditor.action.history;
 
 import com.imageeditor.history.ImageCaretaker;
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

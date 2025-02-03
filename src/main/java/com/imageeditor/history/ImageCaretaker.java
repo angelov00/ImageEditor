@@ -1,6 +1,6 @@
 package com.imageeditor.history;
 
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 
 import java.util.Deque;
 import java.util.LinkedList;

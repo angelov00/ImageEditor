@@ -1,6 +1,6 @@
-package com.imageeditor.controller.view;
+package com.imageeditor.action.view;
 
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

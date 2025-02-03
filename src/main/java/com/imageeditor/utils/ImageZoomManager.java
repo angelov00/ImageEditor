@@ -9,40 +9,23 @@ public class ImageZoomManager {
     private static final double MAX_ZOOM = 2.0;
     private static final double MIN_ZOOM = 0.5;
 
-    /**
-     * Връща текущия зум фактор.
-     */
-    public double getZoomFactor() {
+      public double getZoomFactor() {
         return zoomFactor;
     }
 
-    /**
-     * Увеличава зум фактора, ако текущата стойност е под MAX_ZOOM.
-     * Използваме Double.compare за точно сравнение на double числа.
-     */
     public void zoomIn() {
         if (Double.compare(zoomFactor, MAX_ZOOM) < 0) {
-            // Запазваме, че зум факторът никога не надминава MAX_ZOOM
             zoomFactor = Math.min(zoomFactor + ZOOM_STEP, MAX_ZOOM);
         }
     }
 
-    /**
-     * Намалява зум фактора, ако текущата стойност е над MIN_ZOOM.
-     */
     public void zoomOut() {
         if (Double.compare(zoomFactor, MIN_ZOOM) > 0) {
-            // Запазваме, че зум факторът никога не пада под MIN_ZOOM
             zoomFactor = Math.max(zoomFactor - ZOOM_STEP, MIN_ZOOM);
         }
     }
 
-    /**
-     * Връща нов BufferedImage, който е мащабиран според текущия zoomFactor.
-     * Ако zoomFactor е 1.0 (т.е. няма промяна), се връща оригиналното изображение.
-     */
     public BufferedImage scaleImage(BufferedImage image) {
-        // Ако няма промяна в зума, връщаме оригиналното изображение
         if (Double.compare(zoomFactor, 1.0) == 0) {
             return image;
         }
@@ -62,5 +45,4 @@ public class ImageZoomManager {
         }
         return oldZoom != zoomFactor;
     }
-
 }

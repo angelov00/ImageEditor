@@ -1,4 +1,4 @@
-package com.imageeditor.controller.file;
+package com.imageeditor.action.file;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

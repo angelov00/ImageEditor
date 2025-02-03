@@ -1,6 +1,6 @@
-package com.imageeditor.controller.filter.filters;
+package com.imageeditor.algorithm.filters;
 
-import com.imageeditor.controller.ImageAlgorithm;
+import com.imageeditor.algorithm.core.ImageAlgorithm;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,7 +1,7 @@
-package com.imageeditor.controller;
+package com.imageeditor.algorithm.core;
 
 import com.imageeditor.history.ImageCaretaker;
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +26,10 @@ public class ApplyImageAlgorithmAction extends AbstractAction {
         if (image == null) {
             JOptionPane.showMessageDialog(null, "No image loaded.");
             return;
+        }
+
+        if (imageAlgorithm instanceof ParametrizedImageAlgorithm) {
+            ((ParametrizedImageAlgorithm) imageAlgorithm).showParameterDialog(imagePanel);
         }
 
         caretaker.saveState(imagePanel);

@@ -1,6 +1,6 @@
-package com.imageeditor.controller.file;
+package com.imageeditor.action.file;
 
-import com.imageeditor.ui.panel.ImagePanel;
+import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,7 +30,6 @@ public class SaveFileAction extends AbstractAction {
                 File selectedFile = fileChooser.getSelectedFile();
                 String filePath = selectedFile.getAbsolutePath();
 
-                // Добавяне на разширение ".png" ако не е посочено
                 if (!filePath.endsWith(".png") && !filePath.endsWith(".jpg") && !filePath.endsWith(".jpeg")) {
                     selectedFile = new File(filePath + ".png");
                 }

@@ -1,6 +1,6 @@
-package com.imageeditor.controller.transform;
+package com.imageeditor.algorithm.transformations;
 
-import com.imageeditor.controller.ImageAlgorithm;
+import com.imageeditor.algorithm.core.ImageAlgorithm;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
