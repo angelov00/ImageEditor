@@ -1,7 +1,7 @@
 package com.imageeditor.ui.frame;
 
 import com.imageeditor.controller.file.ExitAction;
-import com.imageeditor.controller.filter.ApplyFilterAction;
+import com.imageeditor.controller.ApplyImageAlgorithmAction;
 import com.imageeditor.controller.filter.filters.EdgeDetectionFilter;
 import com.imageeditor.controller.filter.filters.GrayscaleFilter;
 import com.imageeditor.controller.filter.filters.InvertColorsFilter;
@@ -10,6 +10,11 @@ import com.imageeditor.controller.history.RedoAction;
 import com.imageeditor.controller.history.UndoAction;
 import com.imageeditor.controller.file.OpenFileAction;
 import com.imageeditor.controller.file.SaveFileAction;
+import com.imageeditor.controller.transform.FlipHorizontalTransformation;
+import com.imageeditor.controller.transform.FlipVerticalTransformation;
+import com.imageeditor.controller.transform.RotateTransformation;
+import com.imageeditor.controller.view.ZoomInAction;
+import com.imageeditor.controller.view.ZoomOutAction;
 import com.imageeditor.history.ImageCaretaker;
 import com.imageeditor.ui.panel.ImagePanel;
 
@@ -50,14 +55,26 @@ public class AppFrame extends JFrame {
         editMenu.add(new JMenuItem(new RedoAction(imagePanel, imageCaretaker)));
 
         JMenu filterMenu = new JMenu("Filter");
-        filterMenu.add(new JMenuItem(new ApplyFilterAction(imagePanel, imageCaretaker, new GrayscaleFilter())));
-        filterMenu.add(new JMenuItem(new ApplyFilterAction(imagePanel, imageCaretaker, new InvertColorsFilter())));
-        filterMenu.add(new JMenuItem(new ApplyFilterAction(imagePanel, imageCaretaker, new SepiaFilter())));
-        filterMenu.add(new JMenuItem(new ApplyFilterAction(imagePanel, imageCaretaker, new EdgeDetectionFilter())));
+        filterMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new GrayscaleFilter())));
+        filterMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new InvertColorsFilter())));
+        filterMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new SepiaFilter())));
+        filterMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new EdgeDetectionFilter())));
+
+        JMenu transformMenu = new JMenu("Transform");
+        transformMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new FlipVerticalTransformation())));
+        transformMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new FlipHorizontalTransformation())));
+        transformMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new RotateTransformation(90))));
+        transformMenu.add(new JMenuItem(new ApplyImageAlgorithmAction(imagePanel, imageCaretaker, new RotateTransformation(-90))));
+
+        JMenu viewMenu = new JMenu("View");
+        viewMenu.add(new JMenuItem(new ZoomInAction(imagePanel)));
+        viewMenu.add(new JMenuItem(new ZoomOutAction(imagePanel)));
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(filterMenu);
+        menuBar.add(transformMenu);
+        menuBar.add(viewMenu);
 
         setJMenuBar(menuBar);
     }

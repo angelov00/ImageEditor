@@ -1,6 +1,5 @@
-package com.imageeditor.controller.filter;
+package com.imageeditor.controller;
 
-import com.imageeditor.controller.ImageAlgorithm;
 import com.imageeditor.history.ImageCaretaker;
 import com.imageeditor.ui.panel.ImagePanel;
 
@@ -8,13 +7,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
-public class ApplyFilterAction extends AbstractAction {
+public class ApplyImageAlgorithmAction extends AbstractAction {
 
     private final ImagePanel imagePanel;
     private final ImageCaretaker caretaker;
     private final ImageAlgorithm imageAlgorithm;
 
-    public ApplyFilterAction(ImagePanel imagePanel, ImageCaretaker caretaker, ImageAlgorithm imageAlgorithm) {
+    public ApplyImageAlgorithmAction(ImagePanel imagePanel, ImageCaretaker caretaker, ImageAlgorithm imageAlgorithm) {
         super(imageAlgorithm.getFilterName());
         this.imagePanel = imagePanel;
         this.caretaker = caretaker;

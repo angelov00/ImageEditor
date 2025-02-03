@@ -4,7 +4,9 @@ import com.imageeditor.ui.panel.ImagePanel;
 import com.imageeditor.history.ImageCaretaker;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,8 @@ public class OpenFileAction extends AbstractAction {
         this.parent = parent;
         this.imagePanel = imagePanel;
         this.imageCaretaker = imageCaretaker;
+
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
     }
 
     @Override
