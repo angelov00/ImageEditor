@@ -2,7 +2,6 @@ package com.imageeditor.ui.component;
 
 import com.imageeditor.history.ImageCaretaker;
 import com.imageeditor.history.ImageMemento;
-import com.imageeditor.utils.CropUtil;
 import com.imageeditor.utils.ImageZoomManager;
 
 import javax.swing.*;
@@ -16,10 +15,12 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
     private final ImageZoomManager zoomManager;
     private final ImageCaretaker imageCaretaker;
 
+    //view
     private Point dragStart;
     private Point viewPosition = new Point(0, 0);
     private Point zoomCenter = new Point(0, 0);
 
+    //crop
     private boolean croppingMode = false;
     private Point cropStart;
     private Rectangle selectionRectangle;
@@ -42,28 +43,6 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
                 }
             }
         });
-    }
-
-    private void cropSelection() {
-        if (image == null || selectionRectangle == null) return;
-
-        Point imgStart = transformToImageCoordinates(new Point(selectionRectangle.x, selectionRectangle.y));
-        Point imgEnd = transformToImageCoordinates(new Point(selectionRectangle.x + selectionRectangle.width, selectionRectangle.y + selectionRectangle.height));
-
-        int cropX = Math.max(0, imgStart.x);
-        int cropY = Math.max(0, imgStart.y);
-        int cropWidth = Math.min(image.getWidth() - cropX, imgEnd.x - imgStart.x);
-        int cropHeight = Math.min(image.getHeight() - cropY, imgEnd.y - imgStart.y);
-
-        if (cropWidth <= 0 || cropHeight <= 0) {
-            JOptionPane.showMessageDialog(this, "Invalid crop selection.", "Crop Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        BufferedImage croppedImage = image.getSubimage(cropX, cropY, cropWidth, cropHeight);
-        setImage(croppedImage);
-        selectionRectangle = null;
-        repaint();
     }
 
     @Override
@@ -105,9 +84,9 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     public void setImage(BufferedImage image) {
-        if (this.image != null) {
-            saveState();
-        }
+//        if (this.image != null) {
+//            saveState();
+//        }
         this.image = image;
         resetView();
         updatePanelSize();
@@ -180,80 +159,10 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
         repaint();
     }
 
-    private void saveState() {
+    public void saveState() {
         if (imageCaretaker != null) {
             imageCaretaker.saveState(this);
         }
-    }
-
-    public void enableCroppingMode() {
-        if (image == null) {
-            JOptionPane.showMessageDialog(this, "No image loaded.", "Crop Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        croppingMode = true;
-        selectionRectangle = null;
-        setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-        repaint();
-    }
-
-    public void disableCroppingMode() {
-        System.out.println("in disable");
-        croppingMode = false;
-        selectionRectangle = null;
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        repaint();
-    }
-
-    public boolean isCroppingMode() {
-        return croppingMode;
-    }
-
-    public void resetCropSelection() {
-        selectionRectangle = null;
-        repaint();
-    }
-
-    public void finalizeCrop() {
-        if (selectionRectangle != null && selectionRectangle.width > 0 && selectionRectangle.height > 0) {
-            cropSelectedArea();
-        } else {
-            JOptionPane.showMessageDialog(null, "No valid selection made.", "Crop Error", JOptionPane.ERROR_MESSAGE);
-        }
-        System.out.println("DISABLE TO BE CALLED!");
-        disableCroppingMode();
-    }
-
-    public void cropSelectedArea() {
-
-        System.out.println("in cropSelectedArea");
-
-        if (image == null || selectionRectangle == null) {
-            JOptionPane.showMessageDialog(this, "No image or valid selection.", "Crop Error", JOptionPane.ERROR_MESSAGE);
-            disableCroppingMode(); // Добавяме това
-            return;
-        }
-
-        saveState();
-
-        Point start = transformToImageCoordinates(new Point(selectionRectangle.x, selectionRectangle.y));
-        Point end = transformToImageCoordinates(new Point(selectionRectangle.x + selectionRectangle.width, selectionRectangle.y + selectionRectangle.height));
-
-        int x = Math.max(0, start.x);
-        int y = Math.max(0, start.y);
-        int width = Math.min(image.getWidth() - x, end.x - start.x);
-        int height = Math.min(image.getHeight() - y, end.y - start.y);
-
-        if (width <= 0 || height <= 0) {
-            JOptionPane.showMessageDialog(this, "Invalid crop selection.", "Crop Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Rectangle cropRect = new Rectangle(x, y, width, height);
-        BufferedImage cropped = CropUtil.cropImage(image, cropRect);
-
-        setImage(cropped);
-        disableCroppingMode();
     }
 
     @Override
@@ -311,18 +220,64 @@ public class ImagePanel extends JPanel implements MouseListener, MouseMotionList
         return this.image;
     }
 
-
     private Point transformToImageCoordinates(Point screenPoint) {
         if (image == null) return screenPoint;
 
         double zoom = zoomManager.getZoomFactor();
         BufferedImage scaledImage = zoomManager.scaleImage(image);
 
-        int imageX = (int) ((screenPoint.x - (getWidth() - scaledImage.getWidth()) / 2 + viewPosition.x) / zoom);
-        int imageY = (int) ((screenPoint.y - (getHeight() - scaledImage.getHeight()) / 2 + viewPosition.y) / zoom);
+        int imageX = (int) ((screenPoint.x - (double) (getWidth() - scaledImage.getWidth()) / 2 + viewPosition.x) / zoom);
+        int imageY = (int) ((screenPoint.y - (double) (getHeight() - scaledImage.getHeight()) / 2 + viewPosition.y) / zoom);
 
         return new Point(imageX, imageY);
     }
 
+    public ImageCaretaker getCaretaker() {
+        return this.imageCaretaker;
+    }
+
+    private void cropSelection() {
+        if (image == null || selectionRectangle == null) return;
+
+        Point imgStart = transformToImageCoordinates(new Point(selectionRectangle.x, selectionRectangle.y));
+        Point imgEnd = transformToImageCoordinates(new Point(selectionRectangle.x + selectionRectangle.width, selectionRectangle.y + selectionRectangle.height));
+
+        int cropX = Math.max(0, imgStart.x);
+        int cropY = Math.max(0, imgStart.y);
+        int cropWidth = Math.min(image.getWidth() - cropX, imgEnd.x - imgStart.x);
+        int cropHeight = Math.min(image.getHeight() - cropY, imgEnd.y - imgStart.y);
+
+        if (cropWidth <= 0 || cropHeight <= 0) {
+            JOptionPane.showMessageDialog(this, "Invalid crop selection.", "Crop Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        BufferedImage croppedImage = image.getSubimage(cropX, cropY, cropWidth, cropHeight);
+        setImage(croppedImage);
+        selectionRectangle = null;
+        repaint();
+    }
+
+    public void enableCroppingMode() {
+        if (image == null) {
+            JOptionPane.showMessageDialog(this, "No image loaded.", "Crop Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        croppingMode = true;
+        selectionRectangle = null;
+        setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        repaint();
+    }
+
+    public void disableCroppingMode() {
+        croppingMode = false;
+        selectionRectangle = null;
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        repaint();
+    }
+
+    public boolean isCroppingMode() {
+        return croppingMode;
+    }
 
 }

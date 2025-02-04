@@ -1,6 +1,5 @@
 package com.imageeditor.algorithm.core;
 
-import com.imageeditor.history.ImageCaretaker;
 import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
@@ -10,13 +9,11 @@ import java.awt.image.BufferedImage;
 public class ApplyImageAlgorithmAction extends AbstractAction {
 
     private final ImagePanel imagePanel;
-    private final ImageCaretaker caretaker;
     private final ImageAlgorithm imageAlgorithm;
 
-    public ApplyImageAlgorithmAction(ImagePanel imagePanel, ImageCaretaker caretaker, ImageAlgorithm imageAlgorithm) {
+    public ApplyImageAlgorithmAction(ImagePanel imagePanel,  ImageAlgorithm imageAlgorithm) {
         super(imageAlgorithm.getFilterName());
         this.imagePanel = imagePanel;
-        this.caretaker = caretaker;
         this.imageAlgorithm = imageAlgorithm;
     }
 
@@ -32,7 +29,7 @@ public class ApplyImageAlgorithmAction extends AbstractAction {
             ((ParametrizedImageAlgorithm) imageAlgorithm).showParameterDialog(imagePanel);
         }
 
-        caretaker.saveState(imagePanel);
+        this.imagePanel.saveState();
         BufferedImage filteredImage = imageAlgorithm.apply(image);
         imagePanel.setImage(filteredImage);
     }

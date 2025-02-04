@@ -31,13 +31,22 @@ public class GammaCorrection implements ParametrizedImageAlgorithm {
 
     @Override
     public void showParameterDialog(Component parentComponent) {
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 300, 100);
-        slider.setMajorTickSpacing(50);
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 500, (int) (gammaValue * 100));
+        slider.setMajorTickSpacing(100);
         slider.setMinorTickSpacing(10);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
-        int result = JOptionPane.showConfirmDialog(parentComponent, slider, "Adjust Gamma", JOptionPane.OK_CANCEL_OPTION);
+        JLabel valueLabel = new JLabel("Gamma: " + (slider.getValue() / 100.0));
+
+        slider.addChangeListener(e -> valueLabel.setText("Gamma: " + (slider.getValue() / 100.0)));
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(slider, BorderLayout.CENTER);
+        panel.add(valueLabel, BorderLayout.SOUTH);
+
+        int result = JOptionPane.showConfirmDialog(parentComponent, panel, "Adjust Gamma", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             gammaValue = slider.getValue() / 100.0;
         }

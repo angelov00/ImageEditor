@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
 
 public class RotateTransformation implements ImageAlgorithm {
 
-    private double angle;
+    private final int angle;
 
-    public RotateTransformation(double angle) {
+    public RotateTransformation(int angle) {
         this.angle = angle;
     }
 

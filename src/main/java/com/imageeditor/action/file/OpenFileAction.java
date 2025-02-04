@@ -1,7 +1,6 @@
 package com.imageeditor.action.file;
 
 import com.imageeditor.ui.component.ImagePanel;
-import com.imageeditor.history.ImageCaretaker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +15,11 @@ public class OpenFileAction extends AbstractAction {
 
     private final JFrame parent;
     private final ImagePanel imagePanel;
-    private final ImageCaretaker imageCaretaker;
 
-    public OpenFileAction(JFrame parent, ImagePanel imagePanel, ImageCaretaker imageCaretaker) {
+    public OpenFileAction(JFrame parent, ImagePanel imagePanel) {
         super("Open");
         this.parent = parent;
         this.imagePanel = imagePanel;
-        this.imageCaretaker = imageCaretaker;
 
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
     }

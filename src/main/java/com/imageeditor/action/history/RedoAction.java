@@ -11,10 +11,10 @@ public class RedoAction extends AbstractAction {
     private final ImagePanel imagePanel;
     private final ImageCaretaker imageCaretaker;
 
-    public RedoAction(ImagePanel imagePanel, ImageCaretaker imageCaretaker) {
+    public RedoAction(ImagePanel imagePanel) {
         super("Redo");
         this.imagePanel = imagePanel;
-        this.imageCaretaker = imageCaretaker;
+        this.imageCaretaker = imagePanel.getCaretaker();
     }
 
     @Override

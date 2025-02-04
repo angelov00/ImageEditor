@@ -3,7 +3,9 @@ package com.imageeditor.action.file;
 import com.imageeditor.ui.component.ImagePanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -17,6 +19,8 @@ public class SaveFileAction extends AbstractAction {
         super("Save");
         this.parent = parent;
         this.imagePanel = imagePanel;
+
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
     }
 
     @Override

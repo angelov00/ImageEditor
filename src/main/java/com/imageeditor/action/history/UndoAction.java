@@ -11,10 +11,10 @@ public class UndoAction extends AbstractAction {
     private final ImagePanel imagePanel;
     private final ImageCaretaker imageCaretaker;
 
-    public UndoAction(ImagePanel imagePanel, ImageCaretaker imageCaretaker) {
+    public UndoAction(ImagePanel imagePanel) {
         super("Undo");
         this.imagePanel = imagePanel;
-        this.imageCaretaker = imageCaretaker;
+        this.imageCaretaker = imagePanel.getCaretaker();
     }
 
     @Override
